@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nova Class — Learn smarter with AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=Noto+Sans+Myanmar:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --indigo-50:#eef2ff;--indigo-100:#e0e7ff;--indigo-500:#6366f1;--indigo-600:#4f46e5;
+  --indigo-700:#4338ca;--indigo-950:#1e1b4b;--cyan-400:#22d3ee;--cyan-500:#06b6d4;--cyan-600:#0891b2;
+  --ink:#0f1222;--slate-500:#64748b;--slate-400:#94a3b8;--slate-200:#e2e8f0;--white:#ffffff;
+  --bg:#fbfcff;--bg-tint:#f5f7ff;
+  --grad:linear-gradient(120deg,var(--indigo-600),var(--cyan-500));
+  --grad-soft:linear-gradient(120deg,#eef2ff,#ecfeff);
+  --shadow-sm:0 2px 8px rgba(30,27,75,.05);--shadow:0 18px 50px -20px rgba(49,46,129,.28);
+  --shadow-lg:0 40px 90px -30px rgba(49,46,129,.42);--r:20px;--r-lg:28px;--maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans','Noto Sans Myanmar',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+section{position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo-600);background:var(--indigo-50);padding:7px 14px;border-radius:999px;border:1px solid var(--indigo-100)}
+h1,h2,h3{letter-spacing:-.03em;line-height:1.1;font-weight:800;color:var(--indigo-950)}
+h2{font-size:clamp(1.9rem,4vw,2.9rem)}
+.sec-head{max-width:640px;margin:0 auto 60px;text-align:center}
+.sec-head p{color:var(--slate-500);font-size:1.08rem;margin-top:16px;font-weight:500}
+.gradient-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:.98rem;padding:14px 26px;border-radius:14px;border:none;cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 26px -8px rgba(79,70,229,.6)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px -8px rgba(79,70,229,.7)}
+.btn-ghost{background:var(--white);color:var(--indigo-950);border:1px solid var(--slate-200);box-shadow:var(--shadow-sm)}
+.btn-ghost:hover{transform:translateY(-2px);border-color:var(--indigo-100);box-shadow:var(--shadow)}
+.btn-sm{padding:10px 18px;font-size:.9rem;border-radius:12px}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .3s ease;padding:18px 0}
+.nav.scrolled{padding:12px 0;background:rgba(251,252,255,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(226,232,240,.7)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem;color:var(--indigo-950);letter-spacing:-.02em}
+.logo .mark{width:34px;height:34px;border-radius:10px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 6px 16px -4px rgba(79,70,229,.5)}
+.nav-links{display:flex;gap:34px;align-items:center}
+.nav-links a{font-size:.95rem;font-weight:600;color:var(--slate-500);transition:color .2s}
+.nav-links a:hover{color:var(--indigo-600)}
+.nav-cta{display:flex;gap:12px;align-items:center}
+.lang-btn{font-family:inherit;font-weight:700;font-size:.85rem;color:var(--indigo-700);background:var(--indigo-50);border:1px solid var(--indigo-100);padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .2s}
+.lang-btn:hover{background:var(--indigo-100)}
+.login{font-family:inherit;font-weight:700;font-size:.95rem;color:var(--indigo-950);padding:8px 4px;background:none;border:none;cursor:pointer}
+.burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px}
+.burger span{width:24px;height:2px;background:var(--indigo-950);border-radius:2px}
+
+/* HERO */
+.hero{padding:150px 0 90px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-1;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
+.blob.a{width:520px;height:520px;background:radial-gradient(circle,#c7d2fe,transparent 70%);top:-160px;right:-120px}
+.blob.b{width:460px;height:460px;background:radial-gradient(circle,#a5f3fc,transparent 70%);top:120px;left:-160px;opacity:.45}
+.hero-grid{display:grid;grid-template-columns:1.02fr 1fr;gap:56px;align-items:center}
+.hero-copy h1{font-size:clamp(2.5rem,5.2vw,3.9rem);margin:22px 0 20px}
+.hero-copy .sub{font-size:1.16rem;color:var(--slate-500);font-weight:500;max-width:520px}
+.hero-btns{display:flex;gap:14px;margin:36px 0 22px;flex-wrap:wrap}
+.hero-micro{display:flex;align-items:center;gap:12px;color:var(--slate-400);font-size:.9rem;font-weight:600}
+.avatars{display:flex}
+.avatars span{width:30px;height:30px;border-radius:50%;border:2px solid #fff;margin-left:-8px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:.7rem;font-weight:700}
+.avatars span:first-child{margin-left:0}
+.mock{position:relative;border-radius:var(--r-lg);background:rgba(255,255,255,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow-lg);padding:16px;overflow:hidden}
+.mock-top{display:flex;align-items:center;gap:6px;padding:4px 6px 12px}
+.mock-top i{width:11px;height:11px;border-radius:50%;background:#e2e8f0}
+.mock-top i:nth-child(1){background:#fca5a5}.mock-top i:nth-child(2){background:#fcd34d}.mock-top i:nth-child(3){background:#86efac}
+.mock-body{display:grid;grid-template-columns:52px 1fr;gap:14px}
+.mock-side{background:var(--indigo-950);border-radius:16px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:18px}
+.mock-side .s-logo{width:26px;height:26px;border-radius:8px;background:var(--grad)}
+.mock-side b{width:22px;height:22px;border-radius:7px;background:rgba(255,255,255,.14)}
+.mock-side b.on{background:var(--cyan-400)}
+.mock-main{display:flex;flex-direction:column;gap:12px}
+.mock-hi{display:flex;justify-content:space-between;align-items:center}
+.mock-hi h4{font-size:.98rem;font-weight:800;color:var(--indigo-950);letter-spacing:-.02em}
+.mock-hi p{font-size:.72rem;color:var(--slate-400);font-weight:600}
+.mock-hi .bell{width:30px;height:30px;border-radius:9px;background:var(--indigo-50);display:grid;place-items:center;font-size:.85rem}
+.mock-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mcard{background:#fff;border:1px solid #eef2f7;border-radius:14px;padding:12px}
+.mcard .lbl{font-size:.66rem;color:var(--slate-400);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.mcard .num{font-size:1.4rem;font-weight:800;color:var(--indigo-950);margin-top:2px}
+.mcard .num small{font-size:.72rem;color:var(--cyan-600);font-weight:700}
+.ring{width:44px;height:44px;border-radius:50%;background:conic-gradient(var(--indigo-600) 0 78%,#e0e7ff 78% 100%);display:grid;place-items:center}
+.ring::after{content:"78%";width:32px;height:32px;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:.6rem;font-weight:800;color:var(--indigo-700)}
+.mcard.row{display:flex;align-items:center;justify-content:space-between}
+.bars{display:flex;align-items:flex-end;gap:6px;height:46px;margin-top:8px}
+.bars span{flex:1;background:var(--grad-soft);border-radius:5px 5px 3px 3px;position:relative}
+.bars span::after{content:"";position:absolute;inset:auto 0 0 0;height:var(--h);background:var(--grad);border-radius:5px 5px 3px 3px}
+.mock-chat{background:var(--indigo-950);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.mock-chat .head{display:flex;align-items:center;gap:8px;color:#fff;font-size:.75rem;font-weight:700}
+.mock-chat .head .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan-400);box-shadow:0 0 0 4px rgba(34,211,238,.2)}
+.bub{font-size:.72rem;padding:8px 11px;border-radius:12px;max-width:82%;line-height:1.4}
+.bub.ai{background:rgba(255,255,255,.1);color:#e0e7ff;border-bottom-left-radius:4px}
+.bub.me{background:var(--cyan-500);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.typing{display:flex;gap:4px;padding:9px 12px;background:rgba(255,255,255,.1);border-radius:12px;width:fit-content;border-bottom-left-radius:4px}
+.typing i{width:6px;height:6px;border-radius:50%;background:#93c5fd;animation:blink 1.4s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.float-badge{position:absolute;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:10px 14px;display:flex;align-items:center;gap:9px;font-size:.8rem;font-weight:700;color:var(--indigo-950);border:1px solid #eef2f7}
+.float-badge .ic{width:26px;height:26px;border-radius:8px;background:var(--grad-soft);display:grid;place-items:center;font-size:.9rem}
+.fb1{top:24px;left:-22px;animation:floaty 5s ease-in-out infinite}
+.fb2{bottom:44px;right:-24px;animation:floaty 5.5s ease-in-out infinite .8s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+
+/* WHY */
+.why{padding:100px 0}
+.ps-list{display:flex;flex-direction:column;gap:16px;max-width:920px;margin:0 auto}
+.ps{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;background:#fff;border:1px solid #eef2f7;border-radius:var(--r);padding:22px 26px;box-shadow:var(--shadow-sm);transition:transform .3s,box-shadow .3s}
+.ps:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.ps .prob{color:var(--slate-500);font-weight:600;display:flex;align-items:center;gap:12px}
+.ps .prob .x{flex:none;width:26px;height:26px;border-radius:8px;background:#fef2f2;color:#ef4444;display:grid;place-items:center;font-weight:800;font-size:.9rem}
+.ps .arrow{color:var(--slate-400);font-size:1.2rem}
+.ps .sol{color:var(--indigo-950);font-weight:700;display:flex;align-items:center;gap:12px}
+.ps .sol .v{flex:none;width:26px;height:26px;border-radius:8px;background:var(--grad-soft);color:var(--indigo-600);display:grid;place-items:center;font-weight:800;font-size:.9rem}
+
+/* FEATURES */
+.features{padding:100px 0;background:var(--bg-tint)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feat{background:#fff;border:1px solid #eef2f7;border-radius:var(--r);padding:30px 26px;box-shadow:var(--shadow-sm);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.feat:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.feat .fic{width:52px;height:52px;border-radius:15px;background:var(--grad-soft);display:grid;place-items:center;font-size:1.5rem;margin-bottom:20px;border:1px solid #e0e7ff}
+.feat h3{font-size:1.15rem;margin-bottom:10px}
+.feat p{color:var(--slate-500);font-size:.96rem;font-weight:500}
+
+/* HOW */
+.how{padding:100px 0}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
+.step .n{font-weight:800;color:var(--indigo-600);width:44px;height:44px;border-radius:13px;background:var(--indigo-50);display:grid;place-items:center;margin-bottom:20px;border:1px solid var(--indigo-100);font-size:1.05rem}
+.step h3{font-size:1.1rem;margin-bottom:8px}
+.step p{color:var(--slate-500);font-size:.94rem;font-weight:500}
+
+/* PREVIEW */
+.preview{padding:100px 0;background:var(--bg-tint)}
+.tabs{display:flex;gap:10px;justify-content:center;margin-bottom:36px;flex-wrap:wrap}
+.tab{padding:11px 22px;border-radius:12px;font-weight:700;font-size:.92rem;cursor:pointer;background:#fff;border:1px solid #eef2f7;color:var(--slate-500);transition:all .25s;font-family:inherit}
+.tab.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 10px 24px -8px rgba(79,70,229,.5)}
+.preview-screen{max-width:900px;margin:0 auto;border-radius:var(--r-lg);overflow:hidden;border:1px solid #e6ebf5;box-shadow:var(--shadow);background:#fff}
+.pv-bar{display:flex;gap:6px;padding:14px 18px;border-bottom:1px solid #eef2f7;background:#fafbff}
+.pv-bar i{width:11px;height:11px;border-radius:50%;background:#e2e8f0}
+.pv-bar i:first-child{background:#fca5a5}.pv-bar i:nth-child(2){background:#fcd34d}.pv-bar i:nth-child(3){background:#86efac}
+.pv-body{padding:40px;min-height:340px}
+.pv-panel{display:none}
+.pv-panel.show{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pv-panel h4{font-size:1.3rem;margin-bottom:6px}
+.pv-panel .desc{color:var(--slate-500);font-weight:500;margin-bottom:26px}
+.pv-mock{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pv-mock .box{background:var(--bg-tint);border:1px solid #eef2f7;border-radius:16px;padding:20px;min-height:120px}
+.pv-mock .box .t{font-weight:800;color:var(--indigo-950);margin-bottom:10px;font-size:.95rem}
+.pv-mock .box .l{height:9px;border-radius:5px;background:#e6ebf5;margin-bottom:8px}
+.pv-mock .box .l.g{background:var(--grad-soft);width:70%}
+.pv-mock .box .l.s{width:85%}.pv-mock .box .l.xs{width:50%}
+.pv-mock .box.accent{background:var(--indigo-950);color:#fff}
+.pv-mock .box.accent .t{color:#fff}
+.pv-mock .box.accent .l{background:rgba(255,255,255,.14)}
+.pv-mock .box.accent .l.g{background:var(--cyan-500)}
+
+/* BENEFITS */
+.benefits{padding:100px 0}
+.ben-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.ben{display:flex;gap:16px;align-items:flex-start;padding:24px;border-radius:var(--r);background:#fff;border:1px solid #eef2f7;box-shadow:var(--shadow-sm);transition:transform .3s,box-shadow .3s}
+.ben:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.ben .check{flex:none;width:40px;height:40px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:800}
+.ben h3{font-size:1.02rem;margin-bottom:4px}
+.ben p{color:var(--slate-500);font-size:.9rem;font-weight:500}
+
+/* PRICING */
+.pricing{padding:100px 0;background:var(--bg-tint)}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.plan{background:#fff;border:1px solid #eef2f7;border-radius:var(--r-lg);padding:34px 30px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s;position:relative}
+.plan:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.plan.pop{background:var(--indigo-950);border-color:transparent;box-shadow:var(--shadow-lg)}
+.plan .tag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--cyan-500);color:#fff;font-size:.72rem;font-weight:800;padding:6px 16px;border-radius:999px;letter-spacing:.04em;white-space:nowrap}
+.plan .pname{font-size:1.1rem;font-weight:800;color:var(--indigo-950)}
+.plan.pop .pname{color:#fff}
+.plan .amt{font-size:2.1rem;font-weight:800;color:var(--indigo-950);margin:14px 0 4px;letter-spacing:-.03em}
+.plan.pop .amt{color:#fff}
+.plan .amt small{font-size:.9rem;color:var(--slate-400);font-weight:600}
+.plan ul{list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:13px;flex:1}
+.plan li{display:flex;align-items:center;gap:11px;font-size:.94rem;font-weight:500;color:var(--slate-500)}
+.plan.pop li{color:#cbd5e1}
+.plan li .ck{flex:none;width:20px;height:20px;border-radius:6px;background:var(--grad-soft);color:var(--indigo-600);display:grid;place-items:center;font-size:.7rem;font-weight:800}
+.plan.pop li .ck{background:rgba(34,211,238,.15);color:var(--cyan-400)}
+.plan .btn{width:100%}
+.plan.pop .btn-ghost{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2)}
+
+/* FAQ */
+.faq{padding:100px 0}
+.faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.q{background:#fff;border:1px solid #eef2f7;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+.q-head{padding:22px 26px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:700;color:var(--indigo-950);font-size:1.02rem;gap:16px}
+.q-head .plus{flex:none;width:28px;height:28px;border-radius:9px;background:var(--indigo-50);color:var(--indigo-600);display:grid;place-items:center;font-size:1.2rem;font-weight:600;transition:transform .3s}
+.q.open .q-head .plus{transform:rotate(45deg);background:var(--grad);color:#fff}
+.q-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.q-body p{padding:0 26px 24px;color:var(--slate-500);font-weight:500}
+
+/* FINAL */
+.final{padding:60px 0 100px}
+.final-inner{background:var(--indigo-950);border-radius:var(--r-lg);padding:70px 40px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+.final-inner .fblob{position:absolute;border-radius:50%;filter:blur(80px)}
+.final-inner .fblob.a{width:360px;height:360px;background:rgba(99,102,241,.5);top:-120px;left:-60px}
+.final-inner .fblob.b{width:340px;height:340px;background:rgba(6,182,212,.4);bottom:-120px;right:-40px}
+.final-inner h2{color:#fff;position:relative;font-size:clamp(2rem,4vw,2.8rem)}
+.final-inner p{color:#c7d2fe;position:relative;margin:18px auto 34px;max-width:520px;font-weight:500;font-size:1.08rem}
+.final-inner .btn{position:relative}
+.final-inner .btn-primary{background:#fff;color:var(--indigo-700)}
+.final-inner .btn-primary:hover{background:#f1f5f9}
+
+/* FOOTER */
+footer{padding:70px 0 40px;background:var(--bg)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:44px;border-bottom:1px solid var(--slate-200)}
+.foot-brand .logo{margin-bottom:16px}
+.foot-brand p{color:var(--slate-500);font-size:.94rem;font-weight:500;max-width:240px}
+.foot-socials{display:flex;gap:10px;margin-top:20px}
+.foot-socials a{width:38px;height:38px;border-radius:11px;background:#fff;border:1px solid #eef2f7;display:grid;place-items:center;color:var(--slate-500);transition:all .25s;font-weight:700;font-size:.85rem}
+.foot-socials a:hover{background:var(--grad);color:#fff;border-color:transparent;transform:translateY(-2px)}
+.foot-col h5{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--indigo-950);margin-bottom:16px}
+.foot-col a{display:block;color:var(--slate-500);font-size:.94rem;font-weight:500;margin-bottom:11px;transition:color .2s}
+.foot-col a:hover{color:var(--indigo-600)}
+.foot-bottom{padding-top:26px;display:flex;justify-content:space-between;align-items:center;color:var(--slate-400);font-size:.88rem;font-weight:500}
+
+/* KMATE */
+.kmate{padding:100px 0;background:linear-gradient(160deg,#eef4ff,#ecfdff)}
+.km-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
+.km-left h2{margin:18px 0 16px}
+.km-left .km-sub{color:var(--slate-500);font-weight:500;font-size:1.05rem}
+.km-feats{display:flex;flex-direction:column;gap:18px;margin:28px 0 32px}
+.km-feat{display:flex;gap:16px;align-items:flex-start}
+.km-feat .kic{flex:none;width:46px;height:46px;border-radius:13px;background:#fff;border:1px solid #e0e7ff;display:grid;place-items:center;font-size:1.3rem;box-shadow:var(--shadow-sm)}
+.km-feat b{display:block;font-size:1.02rem;color:var(--indigo-950);margin-bottom:2px}
+.km-feat .kd{color:var(--slate-500);font-size:.92rem;font-weight:500}
+.km-card{background:#fff;border:1px solid rgba(255,255,255,.9);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:28px}
+.km-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px}
+.km-badge{font-size:.72rem;font-weight:800;color:var(--indigo-700);background:var(--indigo-50);padding:6px 12px;border-radius:999px;letter-spacing:.04em}
+.km-num{font-size:.8rem;color:var(--slate-400);font-weight:700;white-space:nowrap}
+.km-question{font-size:1.15rem;font-weight:700;color:var(--indigo-950);line-height:1.55;margin-bottom:8px}
+.km-hint{font-size:.85rem;color:var(--slate-400);font-weight:500;margin-bottom:18px}
+.km-opts{display:flex;flex-direction:column;gap:10px}
+.km-opt{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--slate-200);border-radius:14px;background:#fff;cursor:pointer;font-family:inherit;font-size:1rem;font-weight:600;color:var(--indigo-950);text-align:left;transition:all .2s;width:100%}
+.km-opt:hover{border-color:var(--indigo-500);background:var(--indigo-50)}
+.km-opt .kn{flex:none;width:26px;height:26px;border-radius:8px;background:var(--bg-tint);display:grid;place-items:center;font-size:.85rem;font-weight:800;color:var(--indigo-600)}
+.km-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#15803d}
+.km-opt.correct .kn{background:#22c55e;color:#fff}
+.km-opt.wrong{border-color:#ef4444;background:#fef2f2;color:#b91c1c}
+.km-opt.wrong .kn{background:#ef4444;color:#fff}
+.km-explain{max-height:0;overflow:hidden;transition:max-height .45s ease,margin-top .45s ease;margin-top:0}
+.km-explain.show{max-height:420px;margin-top:18px}
+.km-explain-inner{background:var(--indigo-950);border-radius:16px;padding:18px}
+.km-ai{display:flex;align-items:center;gap:8px;color:#fff;font-size:.82rem;font-weight:700;margin-bottom:10px}
+.km-ai-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan-400);box-shadow:0 0 0 4px rgba(34,211,238,.2)}
+.km-result{font-weight:800;font-size:.95rem;margin-bottom:8px}
+.km-result.ok{color:#4ade80}.km-result.no{color:#fca5a5}
+.km-exp{color:#c7d2fe;font-size:.88rem;font-weight:500;line-height:1.65}
+.km-retry{margin-top:14px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);padding:9px 16px;border-radius:10px;font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s}
+.km-retry:hover{background:rgba(255,255,255,.18)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-backdrop{position:absolute;inset:0;background:rgba(15,18,34,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fade .3s ease}
+.modal-card{position:relative;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-lg);width:100%;max-width:440px;padding:38px 34px;animation:pop .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:10px;border:1px solid #eef2f7;background:#fff;cursor:pointer;font-size:1.1rem;color:var(--slate-500);display:grid;place-items:center;transition:all .2s}
+.modal-close:hover{background:var(--indigo-50);color:var(--indigo-600)}
+.auth-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.auth-head .mark{width:36px;height:36px;border-radius:10px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:800}
+.auth-head b{font-size:1.15rem;color:var(--indigo-950)}
+.auth-sub{color:var(--slate-500);font-size:.92rem;font-weight:500;margin-bottom:22px}
+.auth-tabs{display:flex;gap:6px;background:var(--bg-tint);padding:5px;border-radius:12px;margin-bottom:22px}
+.auth-tab{flex:1;padding:9px;border-radius:9px;border:none;background:none;font-family:inherit;font-weight:700;font-size:.9rem;color:var(--slate-500);cursor:pointer;transition:all .2s}
+.auth-tab.active{background:#fff;color:var(--indigo-700);box-shadow:var(--shadow-sm)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.82rem;font-weight:700;color:var(--indigo-950);margin-bottom:6px}
+.field input,.field select{width:100%;padding:12px 14px;border:1px solid var(--slate-200);border-radius:11px;font-family:inherit;font-size:.94rem;color:var(--ink);background:#fff;transition:border .2s,box-shadow .2s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--indigo-500);box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.signup-only{display:none}
+body[data-auth="signup"] .signup-only{display:block}
+.auth-submit{width:100%;margin-top:8px}
+.auth-note{font-size:.78rem;color:var(--slate-400);text-align:center;margin-top:16px;font-weight:500}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--indigo-950);color:#fff;padding:14px 22px;border-radius:14px;font-weight:600;font-size:.92rem;box-shadow:var(--shadow-lg);z-index:300;opacity:0;transition:all .4s cubic-bezier(.2,.8,.2,1)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+/* DEMO MODAL */
+.demo-card{max-width:720px;padding:0;overflow:hidden}
+.demo-video{aspect-ratio:16/9;background:var(--indigo-950);position:relative;display:grid;place-items:center;overflow:hidden}
+.demo-video iframe{width:100%;height:100%;border:0;position:absolute;inset:0}
+.demo-ph{text-align:center;color:#fff;position:relative;z-index:1}
+.demo-ph .play{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;margin:0 auto 16px;font-size:1.6rem;cursor:pointer;transition:all .25s}
+.demo-ph .play:hover{background:var(--cyan-500);transform:scale(1.06)}
+.demo-ph b{display:block;font-size:1.05rem;margin-bottom:4px}
+.demo-ph span{font-size:.85rem;color:#c7d2fe;font-weight:500}
+.demo-video .dblob{position:absolute;border-radius:50%;filter:blur(70px)}
+.demo-video .dblob.a{width:260px;height:260px;background:rgba(99,102,241,.6);top:-60px;left:-40px}
+.demo-video .dblob.b{width:240px;height:240px;background:rgba(6,182,212,.5);bottom:-60px;right:-40px}
+.demo-foot{padding:20px 26px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.demo-foot span{font-size:.86rem;color:var(--slate-500);font-weight:500}
+
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:44px}.hero{padding:130px 0 70px}
+  .feat-grid,.price-grid{grid-template-columns:1fr 1fr}
+  .km-grid{grid-template-columns:1fr;gap:40px}
+  .steps{grid-template-columns:1fr 1fr;gap:32px}.foot-grid{grid-template-columns:1fr 1fr}.nav-links{display:none}
+}
+@media(max-width:640px){
+  .login{display:none}.burger{display:flex}
+  .feat-grid,.price-grid,.steps,.foot-grid{grid-template-columns:1fr}
+  .ps{grid-template-columns:1fr;gap:12px}.ps .arrow{transform:rotate(90deg);justify-self:start}
+  .pv-mock{grid-template-columns:1fr}.float-badge{display:none}
+  .foot-bottom{flex-direction:column;gap:12px;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body data-lang="mm" data-auth="signup">
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="logo"><span class="mark">N</span>Nova Class</a>
+    <div class="nav-links">
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#kmate" data-i18n="nav_kmate">K-Mate</a>
+      <a href="#how" data-i18n="nav_how">How it Works</a>
+      <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <button class="lang-btn" id="langBtn">EN</button>
+      <button class="login" data-open="login" data-i18n="nav_login">Login</button>
+      <button class="btn btn-primary btn-sm" data-open="signup" data-i18n="nav_getstarted">Get Started</button>
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"><div class="blob a"></div><div class="blob b"></div></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow reveal" data-i18n="hero_eyebrow">AI-Powered Learning Platform</span>
+      <h1 class="reveal d1" data-i18n="hero_h1">Learn smarter with <span class="gradient-text">AI-powered</span> Nova Class</h1>
+      <p class="sub reveal d2" data-i18n="hero_sub">AI helps make lessons, assignments and learning easier.</p>
+      <div class="hero-btns reveal d3">
+        <button class="btn btn-primary" data-open="signup" data-i18n="hero_btn_start">Get Started</button>
+        <button class="btn btn-ghost" data-open="demo" data-i18n="hero_btn_demo">▶ Watch demo</button>
+      </div>
+      <div class="hero-micro reveal d4">
+        <div class="avatars"><span>A</span><span>Z</span><span>M</span><span>+</span></div>
+        <span data-i18n="hero_micro">Trusted by students and teachers across Myanmar</span>
+      </div>
+    </div>
+    <div class="mock reveal d2" id="heroMock">
+      <div class="mock-top"><i></i><i></i><i></i></div>
+      <div class="mock-body">
+        <div class="mock-side"><div class="s-logo"></div><b class="on"></b><b></b><b></b><b></b></div>
+        <div class="mock-main">
+          <div class="mock-hi"><div><h4 data-i18n="mock_hi">Welcome back, Aung 👋</h4><p>Grade 10 · Term 2</p></div><div class="bell">🔔</div></div>
+          <div class="mock-cards">
+            <div class="mcard row"><div><span class="lbl" data-i18n="mock_prog">Progress</span><div class="num">78<small>%</small></div></div><div class="ring"></div></div>
+            <div class="mcard"><span class="lbl" data-i18n="mock_week">This week</span><div class="bars"><span style="--h:40%"></span><span style="--h:65%"></span><span style="--h:50%"></span><span style="--h:85%"></span><span style="--h:70%"></span><span style="--h:95%"></span></div></div>
+          </div>
+          <div class="mock-chat">
+            <div class="head"><span class="dot"></span>Nova AI Tutor</div>
+            <div class="bub me" data-i18n="mock_q">How do I solve a quadratic equation?</div>
+            <div class="bub ai" data-i18n="mock_a">Let me walk you through it step by step...</div>
+            <div class="typing"><i></i><i></i><i></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="float-badge fb1"><span class="ic">📚</span><span data-i18n="badge1">3 lessons today</span></div>
+      <div class="float-badge fb2"><span class="ic">⚡</span><span data-i18n="badge2">AI ready 24/7</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="why_eyebrow">The Problem</span>
+      <h2 style="margin-top:16px" data-i18n="why_h2">Learning shouldn't feel <span class="gradient-text">this hard</span></h2>
+      <p data-i18n="why_sub">Nova Class solves the everyday friction of teaching and learning with AI.</p>
+    </div>
+    <div class="ps-list">
+      <div class="ps reveal"><div class="prob"><span class="x">✕</span><span data-i18n="ps1_p">Students struggle to keep up with lessons</span></div><div class="arrow">→</div><div class="sol"><span class="v">✓</span><span data-i18n="ps1_s">AI-powered personalized learning path</span></div></div>
+      <div class="ps reveal d1"><div class="prob"><span class="x">✕</span><span data-i18n="ps2_p">Teachers spend hours preparing materials</span></div><div class="arrow">→</div><div class="sol"><span class="v">✓</span><span data-i18n="ps2_s">AI-generated lesson plans and resources</span></div></div>
+      <div class="ps reveal d2"><div class="prob"><span class="x">✕</span><span data-i18n="ps3_p">Assignment tracking gets messy</span></div><div class="arrow">→</div><div class="sol"><span class="v">✓</span><span data-i18n="ps3_s">All-in-one assignment management</span></div></div>
+      <div class="ps reveal d3"><div class="prob"><span class="x">✕</span><span data-i18n="ps4_p">Hard to check progress regularly</span></div><div class="arrow">→</div><div class="sol"><span class="v">✓</span><span data-i18n="ps4_s">Real-time progress tracking dashboard</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="feat_eyebrow">Features</span>
+      <h2 style="margin-top:16px" data-i18n="feat_h2">Everything you need to <span class="gradient-text">teach and learn better</span></h2>
+      <p data-i18n="feat_sub">One platform, built for students, teachers, and schools.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="fic">🧠</div><h3 data-i18n="f1_t">Smart learning</h3><p data-i18n="f1_p">Nova AI adjusts content to each student's pace.</p></div>
+      <div class="feat reveal d1"><div class="fic">💬</div><h3 data-i18n="f2_t">AI assistant</h3><p data-i18n="f2_p">Ask a 24/7 AI tutor directly, anytime.</p></div>
+      <div class="feat reveal d2"><div class="fic">📝</div><h3 data-i18n="f3_t">Assignment management</h3><p data-i18n="f3_p">Submit, grade, and get reminders in one place.</p></div>
+      <div class="feat reveal"><div class="fic">📊</div><h3 data-i18n="f4_t">Progress tracking</h3><p data-i18n="f4_p">Detailed visual progress reports.</p></div>
+      <div class="feat reveal d1"><div class="fic">🎥</div><h3 data-i18n="f5_t">Live classes</h3><p data-i18n="f5_p">Interactive live sessions in HD.</p></div>
+      <div class="feat reveal d2"><div class="fic">📁</div><h3 data-i18n="f6_t">Learning resources</h3><p data-i18n="f6_p">Organize notes, videos, and quizzes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="how_eyebrow">How it Works</span>
+      <h2 style="margin-top:16px" data-i18n="how_h2">Get started in <span class="gradient-text">minutes</span></h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="n">1</div><h3 data-i18n="s1_t">Create an account</h3><p data-i18n="s1_p">Sign up free as a student or teacher.</p></div>
+      <div class="step reveal d1"><div class="n">2</div><h3 data-i18n="s2_t">Join a class</h3><p data-i18n="s2_p">Join a classroom with a class code.</p></div>
+      <div class="step reveal d2"><div class="n">3</div><h3 data-i18n="s3_t">Learn with AI</h3><p data-i18n="s3_p">Study with help from the AI tutor.</p></div>
+      <div class="step reveal d3"><div class="n">4</div><h3 data-i18n="s4_t">Track your progress</h3><p data-i18n="s4_p">Monitor progress in real time.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIEW -->
+<section class="preview">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="pv_eyebrow">Platform Preview</span>
+      <h2 style="margin-top:16px" data-i18n="pv_h2">See Nova Class <span class="gradient-text">in action</span></h2>
+      <p data-i18n="pv_sub">A quick look inside the platform students and teachers use every day.</p>
+    </div>
+    <div class="tabs reveal">
+      <div class="tab active" data-tab="dash" data-i18n="tab_dash">Dashboard</div>
+      <div class="tab" data-tab="class" data-i18n="tab_class">Classroom</div>
+      <div class="tab" data-tab="assign" data-i18n="tab_assign">Assignment</div>
+      <div class="tab" data-tab="chat" data-i18n="tab_chat">AI Chat</div>
+    </div>
+    <div class="preview-screen reveal d1">
+      <div class="pv-bar"><i></i><i></i><i></i></div>
+      <div class="pv-body">
+        <div class="pv-panel show" data-panel="dash"><h4 data-i18n="pv_dash_t">Your learning dashboard</h4><p class="desc" data-i18n="pv_dash_d">Progress, assignments and activity at a glance.</p><div class="pv-mock"><div class="box"><div class="t">📊 Weekly progress</div><div class="l g"></div><div class="l s"></div><div class="l xs"></div></div><div class="box accent"><div class="t">🎯 Goals</div><div class="l g"></div><div class="l s"></div><div class="l"></div></div></div></div>
+        <div class="pv-panel" data-panel="class"><h4 data-i18n="pv_class_t">Interactive classroom</h4><p class="desc" data-i18n="pv_class_d">Live HD sessions and real-time collaboration.</p><div class="pv-mock"><div class="box accent"><div class="t">🎥 Live session</div><div class="l g"></div><div class="l s"></div><div class="l"></div></div><div class="box"><div class="t">👥 Participants</div><div class="l"></div><div class="l s"></div><div class="l xs"></div></div></div></div>
+        <div class="pv-panel" data-panel="assign"><h4 data-i18n="pv_assign_t">Assignment hub</h4><p class="desc" data-i18n="pv_assign_d">Submit, track deadlines and get feedback.</p><div class="pv-mock"><div class="box"><div class="t">📝 Due soon</div><div class="l g"></div><div class="l s"></div><div class="l xs"></div></div><div class="box"><div class="t">✅ Submitted</div><div class="l s"></div><div class="l"></div><div class="l xs"></div></div></div></div>
+        <div class="pv-panel" data-panel="chat"><h4 data-i18n="pv_chat_t">Nova AI Chat</h4><p class="desc" data-i18n="pv_chat_d">An AI tutor that answers 24/7 in real time.</p><div class="pv-mock"><div class="box accent"><div class="t">💬 Ask anything</div><div class="l g"></div><div class="l s"></div><div class="l"></div></div><div class="box"><div class="t">📚 Explained</div><div class="l"></div><div class="l s"></div><div class="l xs"></div></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KMATE -->
+<section class="kmate" id="kmate">
+  <div class="wrap km-grid">
+    <div class="km-left reveal">
+      <span class="eyebrow" data-i18n="km_eyebrow">K-Mate · TOPIK Prep</span>
+      <h2 data-i18n="km_h2">Master TOPIK with your <span class="gradient-text">AI study buddy</span></h2>
+      <p class="km-sub" data-i18n="km_sub">K-Mate turns TOPIK II prep into a guided, interactive experience.</p>
+      <div class="km-feats">
+        <div class="km-feat"><div class="kic">🤖</div><div><b data-i18n="km_f1_t">AI Tutor</b><span class="kd" data-i18n="km_f1_p">24/7 tutor grounded in real TOPIK material.</span></div></div>
+        <div class="km-feat"><div class="kic">📝</div><div><b data-i18n="km_f2_t">AI Quiz Generator</b><span class="kd" data-i18n="km_f2_p">Auto-generated TOPIK II questions.</span></div></div>
+        <div class="km-feat"><div class="kic">⏱️</div><div><b data-i18n="km_f3_t">Exam Mode</b><span class="kd" data-i18n="km_f3_p">Full timed mock exams.</span></div></div>
+        <div class="km-feat"><div class="kic">🌐</div><div><b data-i18n="km_f4_t">Trilingual explanations</b><span class="kd" data-i18n="km_f4_p">Answers explained in EN, KR, and MM.</span></div></div>
+      </div>
+      <button class="btn btn-primary" data-open="signup" data-i18n="km_cta">Try K-Mate free</button>
+    </div>
+    <div class="km-right reveal d1">
+      <div class="km-card">
+        <div class="km-card-head"><span class="km-badge" data-i18n="km_quiz_tag">TOPIK II · Vocabulary</span><span class="km-num" data-i18n="km_quiz_num">Question 12 / 40</span></div>
+        <div class="km-question">환경 오염을 줄이기 위해 모두가 (　　) 해야 한다.</div>
+        <div class="km-hint" data-i18n="km_hint">Choose the word that best completes the sentence.</div>
+        <div class="km-opts">
+          <button class="km-opt" data-correct="true"><span class="kn">①</span>노력</button>
+          <button class="km-opt"><span class="kn">②</span>협력</button>
+          <button class="km-opt"><span class="kn">③</span>참여</button>
+          <button class="km-opt"><span class="kn">④</span>동참</button>
+        </div>
+        <div class="km-explain" id="kmExplain">
+          <div class="km-explain-inner">
+            <div class="km-ai"><span class="km-ai-dot"></span><span data-i18n="km_ai_label">Nova AI Tutor</span></div>
+            <p class="km-result" id="kmResult"></p>
+            <p class="km-exp" data-i18n="km_explain">노력하다 works on its own; the others need a partner or target.</p>
+            <button class="km-retry" id="kmRetry" data-i18n="km_retry">Try again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="ben_eyebrow">Benefits</span>
+      <h2 style="margin-top:16px" data-i18n="ben_h2">Why students and teachers <span class="gradient-text">choose Nova Class</span></h2>
+    </div>
+    <div class="ben-grid">
+      <div class="ben reveal"><div class="check">✓</div><div><h3 data-i18n="b1_t">Save study time</h3><p data-i18n="b1_p">Learn faster with AI shortcuts.</p></div></div>
+      <div class="ben reveal d1"><div class="check">✓</div><div><h3 data-i18n="b2_t">Personalized learning</h3><p data-i18n="b2_p">Content adjusts to your level.</p></div></div>
+      <div class="ben reveal d2"><div class="check">✓</div><div><h3 data-i18n="b3_t">Better engagement</h3><p data-i18n="b3_p">Interactive lessons, never boring.</p></div></div>
+      <div class="ben reveal"><div class="check">✓</div><div><h3 data-i18n="b4_t">Easy submission</h3><p data-i18n="b4_p">Submit with a single click.</p></div></div>
+      <div class="ben reveal d1"><div class="check">✓</div><div><h3 data-i18n="b5_t">Progress tracking</h3><p data-i18n="b5_p">See your own progress yourself.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="pr_eyebrow">Pricing</span>
+      <h2 style="margin-top:16px" data-i18n="pr_h2">Simple, <span class="gradient-text">transparent pricing</span></h2>
+      <p data-i18n="pr_sub">Start free, upgrade whenever you're ready.</p>
+    </div>
+    <div class="price-grid">
+      <div class="plan reveal">
+        <div class="pname" data-i18n="free_name">Free</div>
+        <div class="amt" data-i18n="free_amt">0 <small>MMK / forever</small></div>
+        <ul>
+          <li><span class="ck">✓</span><span data-i18n="free_1">1 class join</span></li>
+          <li><span class="ck">✓</span><span data-i18n="free_2">Basic AI assistant</span></li>
+          <li><span class="ck">✓</span><span data-i18n="free_3">Assignment submission</span></li>
+          <li><span class="ck">✓</span><span data-i18n="free_4">Community support</span></li>
+        </ul>
+        <button class="btn btn-ghost" data-open="signup" data-i18n="free_btn">Get started</button>
+      </div>
+      <div class="plan pop reveal d1">
+        <div class="tag" data-i18n="pro_tag">MOST POPULAR</div>
+        <div class="pname" data-i18n="pro_name">Pro</div>
+        <div class="amt" data-i18n="pro_amt">TBD <small>/ month</small></div>
+        <ul>
+          <li><span class="ck">✓</span><span data-i18n="pro_1">Unlimited classes</span></li>
+          <li><span class="ck">✓</span><span data-i18n="pro_2">Advanced AI tutor</span></li>
+          <li><span class="ck">✓</span><span data-i18n="pro_3">Full progress analytics</span></li>
+          <li><span class="ck">✓</span><span data-i18n="pro_4">Priority support</span></li>
+        </ul>
+        <button class="btn btn-primary" data-open="signup" data-i18n="pro_btn">Upgrade to Pro</button>
+      </div>
+      <div class="plan reveal d2">
+        <div class="pname" data-i18n="school_name">School Plan</div>
+        <div class="amt" data-i18n="school_amt">Custom <small>/ contact us</small></div>
+        <ul>
+          <li><span class="ck">✓</span><span data-i18n="school_1">Multi-classroom management</span></li>
+          <li><span class="ck">✓</span><span data-i18n="school_2">Teacher & admin dashboard</span></li>
+          <li><span class="ck">✓</span><span data-i18n="school_3">Bulk student accounts</span></li>
+          <li><span class="ck">✓</span><span data-i18n="school_4">Dedicated support</span></li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost" data-i18n="school_btn">Contact us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="faq_eyebrow">FAQ</span>
+      <h2 style="margin-top:16px" data-i18n="faq_h2">Frequently asked <span class="gradient-text">questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="q reveal"><div class="q-head"><span data-i18n="q1">Is Nova Class free?</span><span class="plus">+</span></div><div class="q-body"><p data-i18n="a1">Yes, there's a free plan; upgrade to Pro for full features.</p></div></div>
+      <div class="q reveal d1"><div class="q-head"><span data-i18n="q2">Can teachers create classes?</span><span class="plus">+</span></div><div class="q-body"><p data-i18n="a2">Yes. Create unlimited classes and invite students.</p></div></div>
+      <div class="q reveal d2"><div class="q-head"><span data-i18n="q3">Can students submit assignments?</span><span class="plus">+</span></div><div class="q-body"><p data-i18n="a3">Yes. Upload directly and get deadline notifications.</p></div></div>
+      <div class="q reveal d3"><div class="q-head"><span data-i18n="q4">Do you support AI tutoring?</span><span class="plus">+</span></div><div class="q-body"><p data-i18n="a4">Yes. A 24/7 AI assistant answers in real time.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final">
+  <div class="wrap">
+    <div class="final-inner reveal">
+      <div class="fblob a"></div><div class="fblob b"></div>
+      <h2 data-i18n="final_h2">Ready to transform your learning?</h2>
+      <p data-i18n="final_p">Join thousands already learning smarter with Nova Class.</p>
+      <button class="btn btn-primary" data-open="signup" data-i18n="final_btn">Get started today</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo"><span class="mark">N</span>Nova Class</a>
+        <p data-i18n="foot_tag">AI-powered learning for every classroom.</p>
+        <div class="foot-socials"><a id="soc-fb" href="#" target="_blank" rel="noopener" aria-label="Facebook">f</a><a id="soc-ig" href="#" target="_blank" rel="noopener" aria-label="Instagram">◎</a><a id="soc-in" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">in</a></div>
+      </div>
+      <div class="foot-col"><h5 data-i18n="foot_product">Product</h5><a href="#features" data-i18n="nav_features">Features</a><a href="#pricing" data-i18n="nav_pricing">Pricing</a><a href="#" data-open="demo" data-i18n="foot_demo">Demo</a></div>
+      <div class="foot-col"><h5 data-i18n="foot_company">Company</h5><a href="#" data-i18n="foot_about">About</a><a href="#contact" data-i18n="nav_contact">Contact</a><a href="#" data-i18n="foot_careers">Careers</a></div>
+      <div class="foot-col"><h5 data-i18n="foot_legal">Legal</h5><a href="#" data-i18n="foot_privacy">Privacy</a><a href="#" data-i18n="foot_terms">Terms</a></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Nova Class. All rights reserved.</span><span data-i18n="foot_made">Made with ✦ for every classroom</span></div>
+  </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <button class="modal-close" data-close>✕</button>
+    <div class="auth-head"><span class="mark">N</span><b>Nova Class</b></div>
+    <p class="auth-sub" data-i18n="auth_sub">Start learning smarter today.</p>
+    <div class="auth-tabs">
+      <button class="auth-tab" data-authtab="login" data-i18n="auth_login">Login</button>
+      <button class="auth-tab active" data-authtab="signup" data-i18n="auth_signup">Sign up</button>
+    </div>
+    <form id="authForm">
+      <div class="field signup-only"><label data-i18n="auth_name">Full name</label><input type="text" name="name" placeholder="Aung Aung" /></div>
+      <div class="field signup-only"><label data-i18n="auth_role">I am a</label><select name="role"><option data-i18n="auth_student">Student</option><option data-i18n="auth_teacher">Teacher</option></select></div>
+      <div class="field"><label data-i18n="auth_email">Email</label><input type="email" name="email" placeholder="you@email.com" required /></div>
+      <div class="field"><label data-i18n="auth_pass">Password</label><input type="password" name="password" placeholder="••••••••" required /></div>
+      <button type="submit" class="btn btn-primary auth-submit" id="authSubmit" data-i18n="auth_submit_signup">Create account</button>
+    </form>
+    <p class="auth-note" data-i18n="auth_note">Demo UI — connect this form to your Nova Class API.</p>
+  </div>
+</div>
+
+<!-- DEMO MODAL -->
+<div class="modal" id="demoModal">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card demo-card">
+    <button class="modal-close" data-close style="z-index:2">✕</button>
+    <div class="demo-video" id="demoVideo">
+      <div class="dblob a"></div><div class="dblob b"></div>
+      <div class="demo-ph"><div class="play">▶</div><b data-i18n="demo_t">Nova Class Demo</b><span data-i18n="demo_s">A 2-minute product walkthrough</span></div>
+    </div>
+    <div class="demo-foot"><span data-i18n="demo_note">Add your YouTube/Vimeo embed URL to go live.</span><button class="btn btn-primary btn-sm" data-open="signup" data-i18n="demo_cta">Get Started</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ====== SET YOUR DEMO VIDEO HERE ====== */
+const DEMO_VIDEO_URL = ""; // e.g. "https://www.youtube.com/embed/XXXXXXXX"
+
+/* ====== SET YOUR SOCIAL LINKS HERE ====== */
+const SOCIAL = {
+  facebook:  "",   // e.g. "https://facebook.com/novaclass"
+  instagram: "",   // e.g. "https://instagram.com/novaclass"
+  linkedin:  ""    // e.g. "https://linkedin.com/company/novaclass"
+};
+(function wireSocials(){
+  const map={ "soc-fb":SOCIAL.facebook, "soc-ig":SOCIAL.instagram, "soc-in":SOCIAL.linkedin };
+  Object.entries(map).forEach(([id,url])=>{
+    const a=document.getElementById(id);
+    if(!a)return;
+    if(url){a.href=url}
+    else{a.style.display="none"} // hide icons with no link yet
+  });
+})();
+
+/* ====== i18n ====== */
+const dict={
+ en:{
+  nav_features:"Features",nav_kmate:"K-Mate",nav_how:"How it Works",nav_pricing:"Pricing",nav_contact:"Contact",nav_login:"Login",nav_getstarted:"Get Started",
+  hero_eyebrow:"✦ AI-Powered Learning Platform",hero_h1:'Learn smarter with <span class="gradient-text">AI-powered</span> Nova Class',hero_sub:"Nova Class helps you make lessons, assignments, and learning easier with AI.",hero_btn_start:"Get Started",hero_btn_demo:"▶ Watch demo",hero_micro:"Trusted by students and teachers across Myanmar",
+  mock_hi:"Welcome back, Aung 👋",mock_prog:"Progress",mock_week:"This week",mock_q:"How do I solve a quadratic equation?",mock_a:"Let me walk you through it step by step...",badge1:"3 lessons today",badge2:"AI ready 24/7",
+  why_eyebrow:"The Problem",why_h2:'Learning shouldn\'t feel <span class="gradient-text">this hard</span>',why_sub:"Nova Class solves the everyday friction of teaching and learning with AI.",
+  ps1_p:"Students struggle to keep up with lessons",ps1_s:"AI-powered personalized learning path",ps2_p:"Teachers spend hours preparing materials",ps2_s:"AI-generated lesson plans and resources",ps3_p:"Assignment tracking gets messy",ps3_s:"All-in-one assignment management",ps4_p:"Hard to check progress regularly",ps4_s:"Real-time progress tracking dashboard",
+  feat_eyebrow:"Features",feat_h2:'Everything you need to <span class="gradient-text">teach and learn better</span>',feat_sub:"One platform, built for students, teachers, and schools.",
+  f1_t:"Smart learning",f1_p:"Nova AI adjusts content to match each student's learning pace.",f2_t:"AI assistant",f2_p:"Ask a 24/7 AI tutor directly, anytime you have a question.",f3_t:"Assignment management",f3_p:"Submit, grade, and get deadline reminders — all in one place.",f4_t:"Progress tracking",f4_p:"Detailed visual progress reports for students, parents, and teachers.",f5_t:"Live classes",f5_p:"Host interactive live sessions inside an HD video classroom.",f6_t:"Learning resources",f6_p:"Organize notes, videos, and quiz files and access them in one place.",
+  how_eyebrow:"How it Works",how_h2:'Get started in <span class="gradient-text">minutes</span>',
+  s1_t:"Create an account",s1_p:"Sign up free as a student or teacher.",s2_t:"Join a class",s2_p:"Join a classroom with a class code.",s3_t:"Learn with AI",s3_p:"Study your lessons with help from the AI tutor.",s4_t:"Track your progress",s4_p:"Monitor your progress in real time from the dashboard.",
+  pv_eyebrow:"Platform Preview",pv_h2:'See Nova Class <span class="gradient-text">in action</span>',pv_sub:"A quick look inside the platform students and teachers use every day.",tab_dash:"Dashboard",tab_class:"Classroom",tab_assign:"Assignment",tab_chat:"AI Chat",
+  pv_dash_t:"Your learning dashboard",pv_dash_d:"See progress, upcoming assignments, and class activity at a glance.",pv_class_t:"Interactive classroom",pv_class_d:"Live HD sessions, shared materials, and real-time collaboration.",pv_assign_t:"Assignment hub",pv_assign_d:"Submit, track deadlines, and get feedback in one place.",pv_chat_t:"Nova AI Chat",pv_chat_d:"An AI tutor that answers every question 24/7 in real time.",
+  km_eyebrow:"✦ K-Mate · TOPIK Prep",km_h2:'Master TOPIK with your <span class="gradient-text">AI study buddy</span>',km_sub:"K-Mate turns TOPIK II prep into a guided, interactive experience — powered by Gemini 2.5 and RAG.",km_f1_t:"AI Tutor",km_f1_p:"A 24/7 tutor grounded in real TOPIK material with RAG + Gemini 2.5.",km_f2_t:"AI Quiz Generator",km_f2_p:"Auto-generated TOPIK II questions across grammar and vocabulary.",km_f3_t:"Exam Mode",km_f3_p:"Full timed mock exams that mirror the real TOPIK II format.",km_f4_t:"Trilingual explanations",km_f4_p:"Every answer explained in English, Korean, and Burmese.",km_cta:"Try K-Mate free",km_quiz_tag:"TOPIK II · Vocabulary",km_quiz_num:"Question 12 / 40",km_hint:"Choose the word that best completes the sentence.",km_ai_label:"Nova AI Tutor",km_correct:"Correct! ① 노력",km_wrong:"Not quite — the answer is ① 노력",km_explain:"노력하다 works on its own without an object. 협력하다 needs a partner (~와/과), and 참여하다 / 동참하다 need a target (~에) — the sentence gives none, so 노력 fits best.",km_retry:"Try again",
+  ben_eyebrow:"Benefits",ben_h2:'Why students and teachers <span class="gradient-text">choose Nova Class</span>',
+  b1_t:"Save study time",b1_p:"Learn faster with AI-powered shortcut methods.",b2_t:"Personalized learning",b2_p:"Content adjusts to your own level.",b3_t:"Better engagement",b3_p:"Interactive lessons that are never boring.",b4_t:"Easy submission",b4_p:"Submit assignments with a single click.",b5_t:"Progress tracking",b5_p:"See your own progress for yourself.",
+  pr_eyebrow:"Pricing",pr_h2:'Simple, <span class="gradient-text">transparent pricing</span>',pr_sub:"Start free, upgrade whenever you're ready.",
+  free_name:"Free",free_amt:'0 <small>MMK / forever</small>',free_1:"1 class join",free_2:"Basic AI assistant",free_3:"Assignment submission",free_4:"Community support",free_btn:"Get started",
+  pro_tag:"MOST POPULAR",pro_name:"Pro",pro_amt:'TBD <small>/ month</small>',pro_1:"Unlimited classes",pro_2:"Advanced AI tutor",pro_3:"Full progress analytics",pro_4:"Priority support",pro_btn:"Upgrade to Pro",
+  school_name:"School Plan",school_amt:'Custom <small>/ contact us</small>',school_1:"Multi-classroom management",school_2:"Teacher & admin dashboard",school_3:"Bulk student accounts",school_4:"Dedicated support",school_btn:"Contact us",
+  faq_eyebrow:"FAQ",faq_h2:'Frequently asked <span class="gradient-text">questions</span>',
+  q1:"Is Nova Class free?",a1:"Yes, there's a free plan. Upgrade to Pro anytime for full features.",q2:"Can teachers create classes?",a2:"Yes. With a teacher account you can create unlimited classes and invite students.",q3:"Can students submit assignments?",a3:"Yes. Upload assignments directly in Nova Class and get deadline notifications.",q4:"Do you support AI tutoring?",a4:"Yes. The 24/7 AI assistant answers student questions in real time.",
+  final_h2:"Ready to transform your learning?",final_p:"Join thousands of students and teachers already learning smarter with Nova Class.",final_btn:"Get started today",
+  foot_tag:"AI-powered learning for every classroom.",foot_product:"Product",foot_company:"Company",foot_legal:"Legal",foot_demo:"Demo",foot_about:"About",foot_careers:"Careers",foot_privacy:"Privacy",foot_terms:"Terms",foot_made:"Made with ✦ for every classroom",
+  auth_sub:"Start learning smarter today.",auth_login:"Login",auth_signup:"Sign up",auth_name:"Full name",auth_role:"I am a",auth_student:"Student",auth_teacher:"Teacher",auth_email:"Email",auth_pass:"Password",auth_submit_login:"Log in",auth_submit_signup:"Create account",auth_note:"Demo UI — connect this form to your Nova Class API.",auth_success_login:"Welcome back! (demo)",auth_success_signup:"Account created! (demo)",
+  demo_t:"Nova Class Demo",demo_s:"A 2-minute product walkthrough",demo_note:"Add your YouTube/Vimeo embed URL to go live.",demo_cta:"Get Started"
+ },
+ mm:{
+  nav_features:"Features",nav_kmate:"K-Mate",nav_how:"How it Works",nav_pricing:"Pricing",nav_contact:"Contact",nav_login:"Login",nav_getstarted:"စတင်မယ်",
+  hero_eyebrow:"✦ AI-Powered Learning Platform",hero_h1:'Nova Class နဲ့ <span class="gradient-text">AI</span> အကူအညီနဲ့ ပိုစမတ်ကျကျ သင်ယူပါ',hero_sub:"AI က သင်ခန်းစာ၊ Assignment နဲ့ Learning ကို ပိုမိုလွယ်ကူအောင် ကူညီပေးမယ့် platform။",hero_btn_start:"စတင်မယ်",hero_btn_demo:"▶ Demo ကြည့်မယ်",hero_micro:"မြန်မာတစ်နိုင်ငံလုံးက ကျောင်းသား၊ ဆရာတွေ ယုံကြည်အားထားတဲ့ platform",
+  mock_hi:"ပြန်လည်ကြိုဆိုပါတယ်၊ Aung 👋",mock_prog:"Progress",mock_week:"ဒီအပတ်",mock_q:"Quadratic equation ဘယ်လိုဖြေရမလဲ?",mock_a:"အဆင့်လိုက် ပြပေးမယ်နော် — ပထမဆုံး...",badge1:"ဒီနေ့ သင်ခန်းစာ ၃ ခု",badge2:"AI 24/7 အသင့်",
+  why_eyebrow:"ပြဿနာ",why_h2:'သင်ယူတာ <span class="gradient-text">ဒီလောက် မခက်ခဲသင့်ပါဘူး</span>',why_sub:"Nova Class က သင်ကြားသင်ယူမှုရဲ့ နေ့စဉ်အခက်အခဲတွေကို AI နဲ့ ဖြေရှင်းပေးပါတယ်။",
+  ps1_p:"ကျောင်းသားတွေ သင်ခန်းစာလိုက်ဖို့ ခက်ခဲတယ်",ps1_s:"AI ကူညီတဲ့ personalized learning path",ps2_p:"ဆရာတွေ material ပြင်ဆင်ဖို့ အချိန်များစွာ ကုန်တယ်",ps2_s:"AI-generated lesson plans နဲ့ resources",ps3_p:"Assignment tracking က ရှုပ်ထွေးနေတတ်တယ်",ps3_s:"တစ်နေရာထဲက assignment management",ps4_p:"Progress ကို မှန်မှန်စစ်ဖို့ ခက်တယ်",ps4_s:"Real-time progress tracking dashboard",
+  feat_eyebrow:"Features",feat_h2:'ပိုကောင်းအောင် <span class="gradient-text">သင်/သင်ယူဖို့</span> လိုအပ်တာ အားလုံး',feat_sub:"ကျောင်းသား၊ ဆရာနဲ့ ကျောင်းတွေအတွက် platform တစ်ခုတည်း။",
+  f1_t:"Smart learning",f1_p:"Nova AI ဟာ ကျောင်းသားတစ်ဦးချင်းစီရဲ့ learning pace ကို လိုက်ညီအောင် content ကို ချိန်ညှိပေးပါတယ်။",f2_t:"AI assistant",f2_p:"မေးခွန်းရှိတိုင်း 24/7 AI tutor နဲ့ တိုက်ရိုက် မေးမြန်းနိုင်ပါတယ်။",f3_t:"Assignment management",f3_p:"Assignment တင်တာ၊ စစ်တာ၊ deadline သတိပေးတာ အားလုံး တစ်နေရာထဲမှာ။",f4_t:"Progress tracking",f4_p:"Student နဲ့ Parent/Teacher အတွက် detailed progress report တွေကို visual ပုံစံနဲ့ မြင်နိုင်ပါတယ်။",f5_t:"Live classes",f5_p:"HD video class room ထဲမှာ interactive ဖြစ်တဲ့ live session တွေ ကျင်းပနိုင်ပါတယ်။",f6_t:"Learning resources",f6_p:"Notes၊ video၊ quiz files တွေကို organize လုပ်ပြီး တစ်နေရာထဲကနေ access လုပ်နိုင်ပါတယ်။",
+  how_eyebrow:"How it Works",how_h2:'မိနစ်ပိုင်းအတွင်း <span class="gradient-text">စတင်လိုက်ပါ</span>',
+  s1_t:"Account ဖွင့်ပါ",s1_p:"Student ဒါမှမဟုတ် Teacher အနေနဲ့ free account တစ်ခု ဖွင့်ပါ။",s2_t:"Class ဝင်ပါ",s2_p:"Class code နဲ့ classroom ထဲကို join ဝင်ပါ။",s3_t:"AI နဲ့ လေ့လာပါ",s3_p:"AI tutor ရဲ့ အကူအညီနဲ့ သင်ခန်းစာတွေကို လေ့လာပါ။",s4_t:"Progress ကို track လုပ်ပါ",s4_p:"Dashboard ကနေ တိုးတက်မှုကို real-time monitor လုပ်ပါ။",
+  pv_eyebrow:"Platform Preview",pv_h2:'Nova Class ကို <span class="gradient-text">လက်တွေ့ကြည့်ပါ</span>',pv_sub:"ကျောင်းသား၊ ဆရာတွေ နေ့စဉ်သုံးနေတဲ့ platform ထဲကို အမြန်တစ်ချက် ကြည့်လိုက်ပါ။",tab_dash:"Dashboard",tab_class:"Classroom",tab_assign:"Assignment",tab_chat:"AI Chat",
+  pv_dash_t:"သင့် learning dashboard",pv_dash_d:"Progress, upcoming assignments, နဲ့ class activity အားလုံးကို တစ်ချက်တည်း မြင်ရအောင်။",pv_class_t:"Interactive classroom",pv_class_d:"Live HD sessions၊ shared materials နဲ့ real-time collaboration။",pv_assign_t:"Assignment hub",pv_assign_d:"Submit၊ track deadlines နဲ့ feedback ရယူတာ တစ်နေရာထဲမှာ။",pv_chat_t:"Nova AI Chat",pv_chat_d:"မေးခွန်းတိုင်းကို 24/7 real-time ဖြေပေးနိုင်တဲ့ AI tutor။",
+  km_eyebrow:"✦ K-Mate · TOPIK Prep",km_h2:'သင့် <span class="gradient-text">AI study buddy</span> နဲ့ TOPIK ကို ကျွမ်းကျင်အောင်လုပ်ပါ',km_sub:"K-Mate က TOPIK II ပြင်ဆင်မှုကို Gemini 2.5 နဲ့ RAG သုံးပြီး interactive လမ်းညွှန်ပုံစံ ဖြစ်အောင် ပြောင်းပေးပါတယ်။",km_f1_t:"AI Tutor",km_f1_p:"တကယ့် TOPIK material တွေအပေါ် အခြေခံတဲ့ 24/7 tutor (RAG + Gemini 2.5)။",km_f2_t:"AI Quiz Generator",km_f2_p:"Grammar နဲ့ vocabulary အတွက် TOPIK II questions အလိုအလျောက် ထုတ်ပေးတယ်။",km_f3_t:"Exam Mode",km_f3_p:"တကယ့် TOPIK II format အတိုင်း အချိန်ကန့်သတ် mock exam အပြည့်။",km_f4_t:"Trilingual explanations",km_f4_p:"အဖြေတိုင်းကို English, Korean နဲ့ မြန်မာ ၃ ဘာသာနဲ့ ရှင်းပြပေးတယ်။",km_cta:"K-Mate အခမဲ့ စမ်းမယ်",km_quiz_tag:"TOPIK II · 어휘",km_quiz_num:"မေးခွန်း 12 / 40",km_hint:"ဝါကျကို အသင့်တော်ဆုံး ဖြည့်ပေးတဲ့ စကားလုံးကို ရွေးပါ။",km_ai_label:"Nova AI Tutor",km_correct:"မှန်ပါတယ်! ① 노력",km_wrong:"မှားသွားတယ် — အဖြေက ① 노력 ပါ",km_explain:"노력하다 က object မပါဘဲ တစ်ခုတည်း သုံးလို့ရတယ်။ 협력하다 က partner (~와/과) လိုပြီး၊ 참여하다 / 동참하다 က target (~에) လိုတယ် — ဒီဝါကျမှာ target မပါလို့ 노력 က အသင့်တော်ဆုံးပါ။",km_retry:"ပြန်စမ်းမယ်",
+  ben_eyebrow:"Benefits",ben_h2:'ကျောင်းသား၊ ဆရာတွေ <span class="gradient-text">Nova Class ကို ဘာကြောင့်ရွေးသလဲ</span>',
+  b1_t:"Study time သက်သာ",b1_p:"AI ကူညီတဲ့ shortcut method တွေနဲ့ ပိုမြန်ဆန်စွာ သင်ယူနိုင်တယ်။",b2_t:"Personalized learning",b2_p:"ကိုယ်ပိုင် level အလိုက် content ချိန်ညှိပေးတယ်။",b3_t:"Better engagement",b3_p:"Interactive lesson တွေနဲ့ boring မဖြစ်တော့ဘူး။",b4_t:"Easy submission",b4_p:"Click တစ်ချက်နဲ့ assignment တင်လို့ရတယ်။",b5_t:"Progress tracking",b5_p:"ကိုယ့်တိုးတက်မှုကို ကိုယ်တိုင် မြင်နိုင်တယ်။",
+  pr_eyebrow:"Pricing",pr_h2:'ရိုးရှင်း၊ <span class="gradient-text">ပွင့်လင်းတဲ့ ဈေးနှုန်း</span>',pr_sub:"အခမဲ့ စတင်ပြီး၊ အဆင်သင့်ဖြစ်တဲ့အခါ upgrade လုပ်ပါ။",
+  free_name:"Free",free_amt:'0 <small>MMK / အမြဲတမ်း</small>',free_1:"Class 1 ခု join",free_2:"Basic AI assistant",free_3:"Assignment submission",free_4:"Community support",free_btn:"စတင်မယ်",
+  pro_tag:"အများဆုံးရွေးချယ်",pro_name:"Pro",pro_amt:'TBD <small>/ လ</small>',pro_1:"Unlimited classes",pro_2:"Advanced AI tutor",pro_3:"Full progress analytics",pro_4:"Priority support",pro_btn:"Pro သို့ upgrade",
+  school_name:"School Plan",school_amt:'Custom <small>/ ဆက်သွယ်ပါ</small>',school_1:"Multi-classroom management",school_2:"Teacher & admin dashboard",school_3:"Bulk student accounts",school_4:"Dedicated support",school_btn:"ဆက်သွယ်ရန်",
+  faq_eyebrow:"FAQ",faq_h2:'မကြာခဏ <span class="gradient-text">မေးလေ့ရှိတဲ့ မေးခွန်းများ</span>',
+  q1:"Nova Class က အခမဲ့လား?",a1:"Free plan ရှိပါတယ်၊ feature အပြည့်အစုံလိုချင်ရင် Pro plan ကို upgrade လုပ်နိုင်ပါတယ်။",q2:"Teacher တွေ class ဖန်တီးလို့ရလား?",a2:"ရပါတယ်၊ Teacher account နဲ့ class မကန့်သတ်ဘဲ ဖန်တီးနိုင်ပြီး student တွေကို invite လုပ်နိုင်ပါတယ်။",q3:"Student တွေ assignment တင်လို့ရလား?",a3:"ရပါတယ်၊ Nova Class ထဲကနေ တိုက်ရိုက် assignment upload လုပ်ပြီး deadline notification လည်း ရရှိပါမယ်။",q4:"AI tutoring ကို support လုပ်ပါသလား?",a4:"ပါပါတယ်၊ 24/7 AI assistant က student questions တွေကို real-time ဖြေပေးနိုင်ပါတယ်။",
+  final_h2:"သင့် learning ကို ပြောင်းလဲဖို့ အဆင်သင့်ဖြစ်ပြီလား?",final_p:"Nova Class နဲ့ ပိုစမတ်ကျကျ သင်ယူနေကြပြီဖြစ်တဲ့ ကျောင်းသား၊ ဆရာ ထောင်ပေါင်းများစွာနဲ့ ပူးပေါင်းလိုက်ပါ။",final_btn:"ဒီနေ့ပဲ စတင်မယ်",
+  foot_tag:"classroom တိုင်းအတွက် AI-powered learning။",foot_product:"Product",foot_company:"Company",foot_legal:"Legal",foot_demo:"Demo",foot_about:"About",foot_careers:"Careers",foot_privacy:"Privacy",foot_terms:"Terms",foot_made:"classroom တိုင်းအတွက် ✦ နဲ့ ဖန်တီးထားသည်",
+  auth_sub:"ဒီနေ့ကတည်းက ပိုစမတ်ကျကျ စတင်သင်ယူပါ။",auth_login:"Login",auth_signup:"Sign up",auth_name:"အမည်အပြည့်အစုံ",auth_role:"ကျွန်တော်/ကျွန်မ က",auth_student:"Student",auth_teacher:"Teacher",auth_email:"Email",auth_pass:"Password",auth_submit_login:"Log in",auth_submit_signup:"Account ဖွင့်မယ်",auth_note:"Demo UI — ဒီ form ကို သင့် Nova Class API နဲ့ ချိတ်ဆက်ပါ။",auth_success_login:"ပြန်လည်ကြိုဆိုပါတယ်! (demo)",auth_success_signup:"Account ဖွင့်ပြီးပါပြီ! (demo)",
+  demo_t:"Nova Class Demo",demo_s:"၂ မိနစ်ကြာ product walkthrough",demo_note:"YouTube/Vimeo embed URL ထည့်ရင် live ဖြစ်ပါမယ်။",demo_cta:"စတင်မယ်"
+ }
+};
+
+let lang='mm';
+const langBtn=document.getElementById('langBtn');
+function applyLang(l){
+  lang=l;
+  document.documentElement.lang = l==='mm'?'my':'en';
+  document.body.setAttribute('data-lang',l);
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(dict[l][k]!==undefined) el.innerHTML=dict[l][k];
+  });
+  langBtn.textContent = l==='mm' ? 'EN' : 'မြန်မာ';
+  const kr=document.getElementById('kmResult');
+  if(kr && kr.dataset.key) kr.textContent=dict[l][kr.dataset.key];
+  syncSubmitLabel();
+}
+langBtn.addEventListener('click',()=>applyLang(lang==='mm'?'en':'mm'));
+
+/* ====== NAV / REVEAL / TABS / FAQ ====== */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>20)});
+/* smooth-scroll for in-page anchors (avoids sandbox external-link dialog) */
+document.querySelectorAll('a[href^="#"]:not([data-open])').forEach(a=>{
+  a.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const id=a.getAttribute('href');
+    if(id==='#'){window.scrollTo({top:0,behavior:'smooth'});return}
+    const el=document.querySelector(id);
+    if(el){const y=el.getBoundingClientRect().top+window.scrollY-70;window.scrollTo({top:y,behavior:'smooth'})}
+  });
+});
+const io=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const mock=document.getElementById('heroMock');
+window.addEventListener('scroll',()=>{const y=window.scrollY;if(y<800&&window.innerWidth>960){mock.style.transform=`translateY(${y*0.04}px)`}});
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.pv-panel').forEach(p=>p.classList.remove('show'));
+  t.classList.add('active');document.querySelector(`.pv-panel[data-panel="${t.dataset.tab}"]`).classList.add('show');
+}));
+document.querySelectorAll('.q').forEach(q=>q.querySelector('.q-head').addEventListener('click',()=>{
+  const open=q.classList.contains('open');
+  document.querySelectorAll('.q').forEach(x=>{x.classList.remove('open');x.querySelector('.q-body').style.maxHeight=null});
+  if(!open){q.classList.add('open');const b=q.querySelector('.q-body');b.style.maxHeight=b.scrollHeight+'px'}
+}));
+
+/* ====== MODALS ====== */
+const authModal=document.getElementById('authModal');
+const demoModal=document.getElementById('demoModal');
+function openModal(m){m.classList.add('open');document.body.style.overflow='hidden'}
+function closeModals(){authModal.classList.remove('open');demoModal.classList.remove('open');document.body.style.overflow=''}
+function setAuth(mode){document.body.setAttribute('data-auth',mode);document.querySelectorAll('.auth-tab').forEach(t=>t.classList.toggle('active',t.dataset.authtab===mode));syncSubmitLabel()}
+function syncSubmitLabel(){const m=document.body.getAttribute('data-auth');document.getElementById('authSubmit').innerHTML=dict[lang][m==='login'?'auth_submit_login':'auth_submit_signup']}
+
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',(e)=>{
+  e.preventDefault();const t=b.getAttribute('data-open');
+  if(t==='demo'){loadDemo();openModal(demoModal)} else {setAuth(t);openModal(authModal)}
+}));
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeModals));
+document.querySelectorAll('.auth-tab').forEach(t=>t.addEventListener('click',()=>setAuth(t.dataset.authtab)));
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeModals()});
+
+document.getElementById('authForm').addEventListener('submit',(e)=>{
+  e.preventDefault();
+  const mode=document.body.getAttribute('data-auth');
+  /* TODO: send to Nova Class backend (JWT) — e.g. POST /api/auth/{login|register} */
+  closeModals();
+  showToast(dict[lang][mode==='login'?'auth_success_login':'auth_success_signup']);
+});
+
+function loadDemo(){
+  const box=document.getElementById('demoVideo');
+  if(DEMO_VIDEO_URL && !box.querySelector('iframe')){
+    box.innerHTML=`<iframe src="${DEMO_VIDEO_URL}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+  }
+}
+document.querySelector('.demo-ph .play').addEventListener('click',loadDemo);
+
+const toast=document.getElementById('toast');let toastTimer;
+function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2600)}
+
+/* ====== K-MATE QUIZ ====== */
+const kmOpts=document.querySelectorAll('.km-opt');
+const kmExplain=document.getElementById('kmExplain');
+const kmResult=document.getElementById('kmResult');
+let kmAnswered=false;
+kmOpts.forEach(o=>o.addEventListener('click',()=>{
+  if(kmAnswered)return;kmAnswered=true;
+  const correct=o.hasAttribute('data-correct');
+  o.classList.add(correct?'correct':'wrong');
+  if(!correct){const c=document.querySelector('.km-opt[data-correct]');if(c)c.classList.add('correct')}
+  const key=correct?'km_correct':'km_wrong';
+  kmResult.dataset.key=key;
+  kmResult.textContent=dict[lang][key];
+  kmResult.className='km-result '+(correct?'ok':'no');
+  kmExplain.classList.add('show');
+}));
+const kmRetry=document.getElementById('kmRetry');
+if(kmRetry)kmRetry.addEventListener('click',()=>{
+  kmAnswered=false;
+  kmOpts.forEach(o=>o.classList.remove('correct','wrong'));
+  kmExplain.classList.remove('show');
+});
+
+applyLang('mm');
+</script>
+</body>
+</html>
